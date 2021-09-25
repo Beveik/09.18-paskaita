@@ -31,14 +31,14 @@ if(!isset($_COOKIE["kukis"])) {
 
 if(isset($_GET["ID"])) {
     $id = $_GET["ID"];
-    $sql = "SELECT * FROM puslapiai WHERE ID = $id";
+    $sql = "SELECT * FROM kategorijos WHERE ID = $id";
 
     //kiek rezultatu gaunam? 1 
 
     $result = $prisijungimas->query($sql);//vykdome uzklausa 
 
     if($result->num_rows == 1) {
-        $puslapiai = mysqli_fetch_array($result);
+        $kategorijos = mysqli_fetch_array($result);
         $hideForm = false;
     
     } else {
@@ -50,37 +50,47 @@ if(isset($_GET["submit"])) {
 
 //   if(isset($_GET["pavadinimas"]) && !empty($_GET["pavadinimas"]) && isset($_GET["nuoroda"]) && !empty($_GET["nuoroda"]) && isset($_GET["santrauka"]) && !empty($_GET["santrauka"]) && isset($_GET["turinys"]) && !empty($_GET["turinys"]) && isset($_GET["kategorijos_id"]) && !empty($_GET["kategorijos_id"]) ) {
 
-    if(isset($_GET["pavadinimas"]) && !empty($_GET["pavadinimas"]) && isset($_GET["nuoroda"]) && !empty($_GET["nuoroda"]) && isset($_GET["santrauka"]) && !empty($_GET["santrauka"]) && isset($_GET["turinys"]) && !empty($_GET["turinys"]) ) {
+    if(isset($_GET["pavadinimas"]) && !empty($_GET["pavadinimas"]) && isset($_GET["aprasymas"]) && !empty($_GET["aprasymas"]) && isset($_GET["nuoroda"]) && !empty($_GET["nuoroda"]) && isset($_GET["tevinis_id"]) && !empty($_GET["tevinis_id"]) ) {
         // if(isset($_GET["pavadinimas"]) && isset($_GET["nuoroda"]) && isset($_GET["santrauka"]) && isset($_GET["turinys"]) && isset($_GET["kategorijos_id"])  ) {
         // if(isset($_GET["pavadinimas"])) {
         $id = $_GET["ID"];
         $pavadinimas = $_GET["pavadinimas"];
         $nuoroda = $_GET["nuoroda"];
-        $santrauka = $_GET["santrauka"];
-        $kategorijos_id = $_GET["kategorija"];
-        $turinys = $_GET["turinys"];
+        $aprasymas = $_GET["aprasymas"];
+        
+        
+        if ($_GET["tevinis_id"]!="13"){
+            $tevinis_id = $_GET["tevinis_id"];
+        } else {
+            $tevinis_id=0;
+        }
 
-        $sql = "UPDATE `puslapiai` SET `pavadinimas`='$pavadinimas',`nuoroda`='$nuoroda', `santrauka`='$santrauka', `kategorijos_id`='$kategorijos_id', `turinys`='$turinys' WHERE `ID` = $id";
+        $sql = "UPDATE `kategorijos` SET `pavadinimas`='$pavadinimas',`nuoroda`='$nuoroda', `aprasymas`='$aprasymas', `tevinis_id`=$tevinis_id WHERE `ID` = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Puslapis redaguotas sėkmingai.";
+            $message =  "Kategorija redaguota sėkmingai.";
             $class = "success";
         } else {
             $message =  "Redagavimas nepavyko.";
             $class = "danger";
         }
     } else {
-        $id = $puslapiai["ID"];
-        $pavadinimas = $puslapiai["pavadinimas"];
-        $nuoroda = $puslapiai["nuoroda"];
-        $santrauka = $puslapiai["santrauka"];
-        $kategorijos_id = $puslapiai["kategorijos_id"];
-        $turinys = $puslapiai["turinys"];
+        $id = $kategorijos["ID"];
+        $pavadinimas = $kategorijos["pavadinimas"];
+        $nuoroda = $kategorijos["nuoroda"];
+        $aprasymas = $kategorijos["aprasymas"];
+        
+        if ($_GET["tevinis_id"]!="13"){
+            $tevinis_id = $kategorijos["tevinis_id"];
+        } else {
+            $tevinis_id=0;
+        }
+        
 
-        $sql = "UPDATE `puslapiai` SET `pavadinimas`='$pavadinimas',`nuoroda`='$nuoroda', `santrauka`='$santrauka', `kategorijos_id`='$kategorijos_id', `turinys`='$turinys' WHERE `ID` = $id";
+        $sql = "UPDATE `kategorijos` SET `pavadinimas`='$pavadinimas',`nuoroda`='$nuoroda', `aprasymas`='$aprasymas', `tevinis_id`='$tevinis_id' WHERE `ID` = $id";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Puslapis redaguotas sėkmingai.";
+            $message =  "Kategorija1 redaguota sėkmingai.";
             $class = "success";
         } else {
             $message =  "Redagavimas nepavyko.";
@@ -94,35 +104,48 @@ if(isset($_GET["submit"])) {
 <div class="container">
         <h1>Redagavimas</h1> <br>
         <?php if($hideForm == false) { ?>
-            <form action="urledit.php" method="get">
+            <form action="sidebaredit.php" method="get">
                 
-                <input class="hide" type="text" name="ID" value ="<?php echo $puslapiai["ID"]; ?>" />
+                <input class="hide" type="text" name="ID" value ="<?php echo $kategorijos["ID"]; ?>" />
 
                 <div class="form-group">
                     <label for="pavadinimas">Pavadinimas</label>
-                    <input class="form-control" type="text" name="pavadinimas" value="<?php echo $puslapiai["pavadinimas"]; ?>" />
+                    <input class="form-control" type="text" name="pavadinimas" value="<?php echo $kategorijos["pavadinimas"]; ?>" />
                 </div>
                 <div class="form-group">
                     <label for="nuoroda">Nuoroda</label>
-                    <input class="form-control" type="text" name="nuoroda" value="<?php echo $puslapiai["nuoroda"]; ?>"/>
+                    <input class="form-control" type="text" name="nuoroda" value="<?php echo $kategorijos["nuoroda"]; ?>"/>
                 </div>
 
                 <div class="form-group">
-                <label for="santrauka">Santrauka</label>
-                <textarea id="santrauka" name="santrauka" class="form-control" > <?php echo $puslapiai["santrauka"]; ?> </textarea>
+                <label for="aprasymas">Aprašymas</label>
+                <textarea id="aprasymas" name="aprasymas" class="form-control" > <?php echo $kategorijos["aprasymas"]; ?> </textarea>
                 </div>
 
                 <div class="form-group">
-                <label for="turinys">Turinys</label>
-                <textarea id="turinys" name="turinys" class="form-control"><?php echo $puslapiai["turinys"]; ?></textarea>
+                    <label for="tevinis_id">Kategorija</label>
+                  
+                    <select class="form-control" name="tevinis_id">
+                        <?php 
+                         $sql = "SELECT * FROM kategorijos";
+                         $result = $prisijungimas->query($sql);
+
+                         while($tevinis = mysqli_fetch_array($result)) {
+
+                            if($kategorijos["tevinis_id"] == $tevinis["ID"] ) {
+                                echo "<option value='".$tevinis["ID"]."' selected='true'>";
+                            } else {
+                                echo "<option value='".$tevinis["ID"]."'>";
+                            }
+                                
+                                echo $tevinis["pavadinimas"];
+                            echo "</option>";
+                       }
+                        ?>
+                    </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="kategorija">Kategorija</label>
-                    <input class="form-control" type="text" name="kategorija" value="<?php echo $puslapiai["kategorijos_id"]; ?>"/>
-                </div>
-
-                <a href="vartotojas.php">Back</a><br>
+                <a href="kategorijos.php">Back</a><br>
                 <button class="btn btn-primary" type="submit" name="submit">Išsaugoti pakeitimus</button>
             </form>
             <?php if(isset($message)) { ?>

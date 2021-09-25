@@ -19,9 +19,6 @@ if($result->num_rows != 0) {
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -38,6 +35,7 @@ if($result->num_rows != 0) {
 
         <?php showJumbotron($puslapiai["ID"], $puslapiai["pavadinimas"], $puslapiai["santrauka"]); ?>
         <div class="container">
+        <p class="catd-text"><a  href="vartotojas.php?catID=<?php echo $puslapiai["ID"] ?>" ><?php echo $puslapiai["kategorijos_pavadinimas"]; ?></a>  </p>
         <?php echo $puslapiai["turinys"]; ?>
         <?php echo $puslapiai["kategorijos_id"]; ?>
         
