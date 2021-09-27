@@ -57,9 +57,9 @@ if(isset($_GET["submit"])) {
         $pavadinimas = $_GET["pavadinimas"];
         $nuoroda = $_GET["nuoroda"];
         $aprasymas = $_GET["aprasymas"];
+        // $tevinis_id = $_GET["tevinis_id"];
         
-        
-        if ($_GET["tevinis_id"]!="13"){
+        if ($_GET["tevinis_id"]!="900"){
             $tevinis_id = $_GET["tevinis_id"];
         } else {
             $tevinis_id=0;
@@ -79,8 +79,9 @@ if(isset($_GET["submit"])) {
         $pavadinimas = $kategorijos["pavadinimas"];
         $nuoroda = $kategorijos["nuoroda"];
         $aprasymas = $kategorijos["aprasymas"];
-        
-        if ($_GET["tevinis_id"]!="13"){
+        $tevinis_id = $kategorijos["tevinis_id"]; 
+
+        if ($_GET["tevinis_id"]!="900"){
             $tevinis_id = $kategorijos["tevinis_id"];
         } else {
             $tevinis_id=0;
@@ -126,12 +127,13 @@ if(isset($_GET["submit"])) {
                     <label for="tevinis_id">Kategorija</label>
                   
                     <select class="form-control" name="tevinis_id">
+                        <option value="900">Nepriskirta jokiai kategorijai</option>
                         <?php 
                          $sql = "SELECT * FROM kategorijos";
                          $result = $prisijungimas->query($sql);
 
-                         while($tevinis = mysqli_fetch_array($result)) {
-
+                     while($tevinis = mysqli_fetch_array($result)) {
+                            if ($tevinis["ID"] != $id){
                             if($kategorijos["tevinis_id"] == $tevinis["ID"] ) {
                                 echo "<option value='".$tevinis["ID"]."' selected='true'>";
                             } else {
@@ -141,6 +143,7 @@ if(isset($_GET["submit"])) {
                                 echo $tevinis["pavadinimas"];
                             echo "</option>";
                        }
+                    }
                         ?>
                     </select>
                 </div>

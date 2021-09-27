@@ -57,8 +57,14 @@ if(isset($_GET["submit"])) {
         $pavadinimas = $_GET["pavadinimas"];
         $nuoroda = $_GET["nuoroda"];
         $santrauka = $_GET["santrauka"];
-        $kategorijos_id = $_GET["kategorija"];
+        // $kategorijos_id = $_GET["kategorijos_id"];
         $turinys = $_GET["turinys"];
+
+        if ($_GET["kategorijos_id"]!="900"){
+            $kategorijos_id = $_GET["kategorijos_id"];
+        } else {
+            $kategorijos_id=0;
+        }
 
         $sql = "UPDATE `puslapiai` SET `pavadinimas`='$pavadinimas',`nuoroda`='$nuoroda', `santrauka`='$santrauka', `kategorijos_id`='$kategorijos_id', `turinys`='$turinys' WHERE `ID` = $id";
 
@@ -118,8 +124,28 @@ if(isset($_GET["submit"])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="kategorija">Kategorija</label>
-                    <input class="form-control" type="text" name="kategorija" value="<?php echo $puslapiai["kategorijos_id"]; ?>"/>
+                    <label for="kategorijos_id">Kategorija</label>
+                  
+                    <select class="form-control" name="kategorijos_id">
+                        <option value="900">Nepriskirta jokiai kategorijai</option>
+                        <?php 
+                         $sql = "SELECT * FROM kategorijos";
+                         $result = $prisijungimas->query($sql);
+
+                     while($kategorijos = mysqli_fetch_array($result)) {
+                            if ($kategorijos["ID"] != $id){
+                            if($kategorijos["kategorijos_id"] == $kategorijos["ID"] ) {
+                                echo "<option value='".$kategorijos["ID"]."' selected='true'>";
+                            } else {
+                                echo "<option value='".$kategorijos["ID"]."'>";
+                            }
+                                
+                                echo $kategorijos["pavadinimas"];
+                            echo "</option>";
+                       }
+                    }
+                        ?>
+                    </select>
                 </div>
 
                 <a href="vartotojas.php">Back</a><br>

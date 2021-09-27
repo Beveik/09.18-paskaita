@@ -62,19 +62,19 @@ ORDER BY kategorijos1.ID ASC";
 
                     if($category["rodyti"] == 0) {
                         echo "<td>
-                            <input type='checkbox' value='$categoryID' name='category[]'";
-                            if ($category["ID"]==13){
-                                echo "disabled";
-                            }
-                            echo "/></td>"; 
+                            <input type='checkbox' value='$categoryID' name='category[]'/></td>";
+                            // if ($category["ID"]==13){
+                            //     echo "disabled";
+                            // }
+                            // echo ""; 
                     } else {
-                        echo "<td><input type='checkbox' value='$categoryID' name='category[]'   ";
-                        if ($category["ID"]==13){
-                            echo "disabled";
-                        } else {
-                            echo "checked='true'";
-                        }
-                        echo "/></td>"; 
+                        echo "<td><input type='checkbox' value='$categoryID' name='category[]' checked='true' /></td> ";
+                        // if ($category["ID"]==13){
+                        //     echo "disabled";
+                        // } else {
+                        //     echo "";
+                        // }
+                        // echo ""; 
                         
                     }
   

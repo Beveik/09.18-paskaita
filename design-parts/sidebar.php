@@ -45,8 +45,5 @@ foreach($kategorijos as $kategorija) {
     echo $kategorija;
 }
 ?>   
-            <?php
- if ($vartotojas[3]==2){?>
-    <a class="btn btn-primary" href="kategorijos.php">Kategorijų redagavimas</a>
-<?php } ?>
+
     </div>

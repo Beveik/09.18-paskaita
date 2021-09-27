@@ -14,7 +14,7 @@ $result = $prisijungimas->query($sql);
 if($result->num_rows != 0) {
     $puslapiai = mysqli_fetch_array($result);
 } else {
-    header("Location:404.php");
+    header("Location:vartotojas.php");
 }
 
 ?>
@@ -43,6 +43,23 @@ if($result->num_rows != 0) {
         if ($vartotojas[3]==2){?>
                         <br>
                         <a href='urledit.php?ID=<?php echo $puslapiai["ID"]; ?>'>Redaguoti</a>
+                        <br>
+                        <a href='puslapiai.php?ID=<?php echo $puslapiai["ID"];?>'>Ištrinti</a>
+
+                        <?php
+                        if (isset($_GET["ID"])) {
+                $id = $_GET["ID"];
+                $sql = "DELETE FROM `puslapiai` WHERE `ID` = $id";
+
+                if (mysqli_query($prisijungimas, $sql)) {
+                    $message = "Puslapis ištrintas sėkmingai.";
+                    $class = "success";
+                } else {
+                    $message = "Puslapio ištrinti nepavyko.";
+                    $class = "danger";
+                }
+            }
+            ?>
       <?php } ?>
 
      </div>

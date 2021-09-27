@@ -26,27 +26,24 @@ if(!isset($_COOKIE["kukis"])) {
 
 
 if(isset($_GET["submit"])) {
-    if(isset($_GET["pavadinimas"]) && isset($_GET["tevinis_id"]) &&  isset($_GET["nuoroda"]) && !empty($_GET["tevinis_id"]) && !empty($_GET["pavadinimas"]) && isset($_GET["aprasymas"]) && !empty($_GET["aprasymas"]) && !empty($_GET["nuoroda"])) {
+    if(isset($_GET["pavadinimas"]) && !empty($_GET["pavadinimas"])  &&  isset($_GET["nuoroda"]) && !empty($_GET["kategorijos_id"]) && isset($_GET["kategorijos_id"])  && isset($_GET["turinys"]) && !empty($_GET["turinys"]) && !empty($_GET["nuoroda"]) && !empty($_GET["santrauka"]) && isset($_GET["santrauka"])) {
 
         $pavadinimas = $_GET["pavadinimas"];
         $nuoroda = $_GET["nuoroda"];
-        $aprasymas = $_GET["aprasymas"];
-        
-        if ($_GET["tevinis_id"]!="900"){
-            $tevinis_id = $_GET["tevinis_id"];
-        } else {
-            $tevinis_id=0;
-        }
+        $turinys = $_GET["turinys"];
+        $santrauka = $_GET["santrauka"];
+        $kategorijos_id = $_GET["kategorijos_id"];
 
 
-        $sql = "INSERT INTO `kategorijos`(`pavadinimas`, `nuoroda`, `aprasymas`, `tevinis_id`, `rodyti` ) 
-            VALUES ('$pavadinimas','$nuoroda','$aprasymas','$tevinis_id', 0 )";
+
+        $sql = "INSERT INTO `puslapiai`(`pavadinimas`, `nuoroda`, `turinys`, `santrauka`, `kategorijos_id` ) 
+            VALUES ('$pavadinimas','$nuoroda','$turinys', '$santrauka', '$kategorijos_id')";
 
         if(mysqli_query($prisijungimas, $sql)) {
-            $message =  "Kategorija pridėta sėkmingai.";
+            $message =  "Puslapis pridėtas sėkmingai.";
             $class = "success";
         } else {
-            $message =  "Kategorija nepridėta.";
+            $message =  "Puslapis nepridėtas.";
             $class = "danger";
         }
     } else {
@@ -63,8 +60,8 @@ if(isset($_GET["submit"])) {
 if ($vartotojas[3]==2){ ?> 
 
 
-        <h1>Nauja kategorija</h1>
-            <form action="newkategorija.php" method="get">
+        <h1>Naujas puslapis</h1>
+            <form action="newpage.php" method="get">
 
                 <div class="form-group">
                     <label for="pavadinimas">Pavadinimas</label>
@@ -75,16 +72,21 @@ if ($vartotojas[3]==2){ ?>
                     <input class="form-control" type="text" name="nuoroda" placeholder="Nuoroda" />
                 </div>
                 <div class="form-group">
-                    <label for="aprasymas">Aprašymas</label>
-                    <textarea id="aprasymas" name="aprasymas" class="form-control" placeholder="Aprašymas"></textarea>
+                    <label for="turinys">Turinys</label>
+                    <textarea id="turinys" name="turinys" class="form-control" placeholder="Turinys"></textarea>
+                  
+                </div>
+                <div class="form-group">
+                    <label for="santrauka">Santrauka</label>
+                    <textarea id="santrauka" name="santrauka" class="form-control" placeholder="Santrauka"></textarea>
                   
                 </div>
 
                 <div class="form-group">
-                    <label for="tevinis_id">Kategorija</label>
+                    <label for="kategorijos_id">Kategorija</label>
                   
-                    <select class="form-control" name="tevinis_id">
-                    <option value="900">Nepriskirta jokiai kategorijai</option>
+                    <select class="form-control" name="kategorijos_id">
+                    <!-- <option value="900">Nepriskirta jokiai kategorijai</option> -->
                         <?php 
                          $sql = "SELECT * FROM kategorijos";
                          $result = $prisijungimas->query($sql);
@@ -104,7 +106,7 @@ if ($vartotojas[3]==2){ ?>
                     </select>
                 </div>
                 
-<button class="btn btn-primary" type="submit" name="submit">Pridėti kategoriją</button><br>
+<button class="btn btn-primary" type="submit" name="submit">Pridėti puslapį</button><br>
                 <a href="vartotojas.php">Back</a>
                 
             </form>
@@ -119,8 +121,8 @@ if ($vartotojas[3]==2){ ?>
     </div>
     <script>
     $(document).ready(function() {
-        $('#aprasymas').summernote({focus: true});
-        
+        $('#turinys').summernote({focus: true});
+        $('#santrauka').summernote({focus: true});
     });
   </script>
 </body>
