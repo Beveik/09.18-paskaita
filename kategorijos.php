@@ -28,7 +28,7 @@ $vartotojas = explode("|", $_COOKIE["kukis"]);?>
                     <th>Aprašymas</th>
                     <th>Tėvinis</th>
                     <th>Rodyti</th>
-                    <th>Redaguoti</th>
+                    <th>Veiksmai</th>
                 </tr>
             <?php
             // $sql = "SELECT * FROM kategorijos"; //kuri kategorija yra tevine/ kuri vaikine
@@ -80,7 +80,24 @@ ORDER BY kategorijos1.ID ASC";
   
                     echo "<td>
                     <a href='sidebaredit.php?ID=".$category["ID"]."'>Redaguoti</a>
-                    </td>";
+                    <br>
+                    <a href='kategorijos.php?ID=" .$category["ID"]."'>Ištrinti</a>
+                        </td>";
+                        
+                        if (isset($_GET["ID"])) {
+                $id = $_GET["ID"];
+                $sql = "DELETE FROM `kategorijos` WHERE `ID` = $id";
+
+                if (mysqli_query($prisijungimas, $sql)) {
+                    $message = "Kategorija ištrinta sėkmingai.";
+                    $class = "success";
+                } else {
+                    $message = "Kategorijos ištrinti nepavyko.";
+                    $class = "danger";
+                }
+            }
+            
+                    
                     
                 echo "</tr>";
 
@@ -115,25 +132,13 @@ ORDER BY kategorijos1.ID ASC";
         }
         
         ?>
+        <?php if (isset($message)) { ?>
+            <div class="alert alert-<?php echo $class; ?>">
+                <?php echo $message; ?>
+            </div>
+
+        <?php } ?>
     </div>
 </body>
 </html>
 
-
-
-
-
-
-<?php 
-
-//1. Sonines juostos atvaizdavimas
-// Sonine juosta kaireje puseje
-// Sonine juosta desineje puseje
-// Sonines juostos neatvaizduoti
-
-//2. Kategoriju matomumas
-// Kad mes galetume pasirinkti, kurias kategorijas norime matyti, kuriu ne
-
-
-
-?>

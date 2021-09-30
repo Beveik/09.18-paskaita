@@ -32,23 +32,26 @@ $selected_value = mysqli_fetch_array($result);
                 puslapiai.pavadinimas, 
                 puslapiai.nuoroda, 
                 puslapiai.santrauka, 
+                puslapiai.rodyti,
                 kategorijos.pavadinimas AS kategorijos_pavadinimas,
                 kategorijos.ID
                 FROM puslapiai 
                 LEFT JOIN kategorijos
                 ON puslapiai.kategorijos_id = kategorijos.ID
-                WHERE puslapiai.kategorijos_id = $catID
+                WHERE puslapiai.kategorijos_id = $catID AND puslapiai.rodyti=1
                 ORDER BY puslapiai.ID DESC";    
             } else {
                 $sql = "SELECT puslapiai.ID AS puslapiai_ID,
                 puslapiai.pavadinimas, 
                 puslapiai.nuoroda, 
                 puslapiai.santrauka, 
+                puslapiai.rodyti,
                 kategorijos.pavadinimas AS kategorijos_pavadinimas,
                 kategorijos.ID
                 FROM puslapiai 
                 LEFT JOIN kategorijos
-                ON puslapiai.kategorijos_id = kategorijos.ID
+                ON puslapiai.kategorijos_id = kategorijos.ID 
+                WHERE puslapiai.rodyti=1
                 ORDER BY puslapiai.ID DESC";
             }
 
