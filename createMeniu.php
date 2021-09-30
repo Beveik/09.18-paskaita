@@ -65,9 +65,8 @@ if ($meniuTipas==1){ ?>
     <form action="createMeniu.php" method="get">
 
     <input type="hidden" name="meniuTipas" value="<?php echo $meniuTipas; ?>" >
-    <p>Įveskite pavadinimą arba pasirinkite iš esamų:</p>
-                                <input class='form-control' type='text' name='pavadinimas' value='Įveskite pavadinimą' checked='true'>
-
+    
+                               <br> <p>Pasirinkite kategoriją:</p>
                         <select name="categories">
                             <?php 
                             
@@ -82,9 +81,11 @@ if ($meniuTipas==1){ ?>
                                 
                             ?>
                         </select><br><br>
+                                <input class='form-control' type='text' name='pavadinimas' value='Įveskite kategorijos pavadinimą, jei norite jį pakeisti' checked='true'>
+                                <br>
                         <input  type="radio" name="target" value="_self" checked="true"> Atsidarys tame pačiame</br>
                         <input  type="radio" name="target" value="_blank"> Atsidarys kitame lange</br>
-                        
+                        <br>
                         <input class="form-control" type="text" name="alt" placeholder="Įveskite nuorodos aprašymą">
                         <input class="btn btn-primary" type="submit" name="create" value="Create">                 
                         
@@ -138,6 +139,8 @@ if ($meniuTipas==1){ ?>
     <h3>Nuoroda į puslapį</h3>
     <form action="createMeniu.php" method="get">
     <input type="hidden" name="meniuTipas" value="<?php echo $meniuTipas; ?>" >
+
+    <br> <p>Pasirinkite puslapį:</p>
                         <select name="pages">
                             <?php 
                                 $sql = "SELECT  pavadinimas, nuoroda FROM puslapiai";
@@ -151,10 +154,13 @@ if ($meniuTipas==1){ ?>
                             
                             ?>
                         </select><br>
+                        <input class='form-control' type='text' name='pavadinimas' value='Įveskite puslapio pavadinimą, jei norite jį pakeisti' checked='true'>
+                                <br>
                         <input  type="radio" name="target" value="_self" checked="true"> Atsidarys tame pačiame</br>
                         <input  type="radio" name="target" value="_blank"> Atsidarys kitame lange</br>
-                        
+                        <br>
                         <input class="form-control" type="text" name="alt" placeholder="Įveskite nuorodos aprašymą">
+                        <br>
                         <input class="btn btn-primary" type="submit" name="create" value="Create">
 
     </form>
@@ -166,8 +172,14 @@ if ($meniuTipas==1){ ?>
                         $result = $prisijungimas->query($sql);
                         
                         $page = mysqli_fetch_array($result);
-                        $pavadinimas = $page["pavadinimas"]; //pasirinktos puslapio pavadinima, musu meniu punkto pavadinimas
-                        
+                        // $pavadinimas = $page["pavadinimas"]; //pasirinktos puslapio pavadinima, musu meniu punkto pavadinimas
+
+                        if(isset($_GET["pavadinimas"]) && !empty($_GET["pavadinimas"])){
+                            $pavadinimas = $_GET["pavadinimas"];
+
+                        } else {
+                        $pavadinimas = $page["pavadinimas"]; //pasirinktos kategorijos pavadinima, musu meniu punkto pavadinimas
+                    }
                         $target = $_GET["target"];
                         $alt = $_GET["alt"];
 
